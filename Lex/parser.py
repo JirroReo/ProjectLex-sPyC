@@ -1,4 +1,4 @@
-from .nodes import NumberNode, BinOpNode
+from .nodes import NumberNode, BinOpNode, UnaryOpNode
 from .errors import InvalidSyntaxError
 from .constants import TYPE_EOF
 
@@ -46,9 +46,29 @@ class Parser:
     def factor(self):
         res = ParseResult()
         tok = self.current_tok
-        if tok.type in ('INT', 'FLOAT'):
+
+        if tok.type in ('PLUS', 'MINUS'):
+            res.register(self.advance())
+            factor = res.register(self.factor())
+            if res.error: return res
+            return res.success(UnaryOpNode(tok, factor))
+
+        elif tok.type in ('INT', 'FLOAT'):
             res.register(self.advance())
             return res.success(NumberNode(tok))
+        
+        elif tok.type == 'LPAREN':
+            res.register(self.advance())
+            expression = res.register(self.expression())
+            if res.error: return res
+            if self.current_tok.type == 'RPAREN':
+                res.register(self.advance())
+                return res.success(expression)
+            else: 
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    "Expected ')'"
+                ))
 
         return res.failure(InvalidSyntaxError(
             tok.pos_start, tok.pos_end, 
