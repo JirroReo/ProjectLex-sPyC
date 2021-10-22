@@ -19,4 +19,4 @@
 
 `(operation)*` = repeat operation 'til there's none
 
-[![Illustration Here](../assets/GrammarGuide.png)]
+![Illustration Here](../assets/GrammarGuide.png)]
