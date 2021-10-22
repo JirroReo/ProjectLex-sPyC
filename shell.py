@@ -1,4 +1,4 @@
-import Lex.lex as lex
+import Lex.lexer as lex
 
 while True:
     text = input('lex > ')
