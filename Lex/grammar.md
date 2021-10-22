@@ -10,13 +10,13 @@
 
 | Name                   | Description                                                                 |
 |------------------------|-----------------------------------------------------------------------------|
-| expression             | term ((PLUS|MINUS) term)*                                                   |
-| term                   | factor ((MOD|MUL|DIV) factor)*                                              |
-| factor                 | INT|FLOAT                                                                   |
-|                        | (PLUS|MINUS) factor                                                         |
-|                        | LPAREN expression RPAREN                                                    |
+| expression             | `term ((PLUS|MINUS) term)*`                                                   |
+| term                   | `factor ((MOD|MUL|DIV) factor)*`                                              |
+| factor                 | `INT|FLOAT`                                                                   |
+|                        | `(PLUS|MINUS) factor`                                                         |
+|                        | `LPAREN expression RPAREN`                                                    |
 
 
 `(operation)*` = repeat operation 'til there's none
 
-[Illustration Here](../assets/GrammarGuide.png "Grammar Guide")
+[![Illustration Here](../assets/GrammarGuide.png)]
