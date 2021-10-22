@@ -1,9 +1,25 @@
-import Lex.lexer as lex
+from Lex.lexer import Lexer
+from Lex.parser import Parser
 
-while True:
-    text = input('lex > ')
-    result, error = lex.run(text)
+def run(fn, text):
+    # Analyze lexigraph
+    lexer = Lexer(fn, text)
+    tokens, error = lexer.make_tokens()
+    if error: return None, error
+    # return tokens, error
+    # ^ [Uncomment if gonna use Lexicographical Analyzer]
 
-    if error: print(error.as_string())
-    else: print(result)
-    # else: print(*result, sep="\n")
+    # v [Turn block into comment if gonna use Parser]
+    # Generate Abstract Syntax Tree 
+    parser = Parser(tokens)
+    ast = parser.parse()
+    return ast.node, ast.error
+
+if __name__ == "__main__":
+    while True:
+        text = input('lex > ')
+        result, error = run('<stdin>', text)
+
+        if error: print(error.__str__())
+        else: print(result)
+        # else: print(*result, sep="\n")
