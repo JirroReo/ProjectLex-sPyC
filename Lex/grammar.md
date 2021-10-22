@@ -10,10 +10,10 @@
 
 | Name                   | Description                                                                 |
 |------------------------|-----------------------------------------------------------------------------|
-| expression             | `term ((PLUS|MINUS) term)*`                                                   |
-| term                   | `factor ((MOD|MUL|DIV) factor)*`                                              |
-| factor                 | `INT|FLOAT`                                                                   |
-|                        | `(PLUS|MINUS) factor`                                                         |
+| expression             | `term ((PLUS or MINUS) term)*`                                                   |
+| term                   | `factor ((MOD or MUL or DIV) factor)*`                                              |
+| factor                 | `INT or FLOAT`                                                                   |
+|                        | `(PLUS or MINUS) factor`                                                         |
 |                        | `LPAREN expression RPAREN`                                                    |
 
 
