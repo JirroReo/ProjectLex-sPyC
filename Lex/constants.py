@@ -11,3 +11,9 @@ types = {
     '(' : 'LPAREN',
     ')' : 'RPAREN'
 }
+
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+
+reserved_words = {}
+
+keywords = {"keyword", "token"} #test keywords

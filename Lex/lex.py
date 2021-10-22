@@ -1,7 +1,6 @@
 from .tokens import Token
-from .constants import digits, types
+from .constants import digits, types, alphabet, keywords, reserved_words
 from .errors import IllegalCharacterError
-
 
 class Lexer:
     def __init__(self, text):
@@ -25,6 +24,8 @@ class Lexer:
                 self.advance()
             elif self.current_character in digits:
                 tokens.append(self.make_number())
+            elif self.current_character in alphabet:
+                tokens.append(self.make_lexeme())
             else:
                 char = self.current_character
                 self.advance()
@@ -50,9 +51,24 @@ class Lexer:
         else:
             return Token('float', float(num_str))
 
+    def make_lexeme(self):
+        lexeme = ''
+        # assuming (for now) that identifiers can only contain alphabet and digits
+        while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
+            lexeme += self.current_character
+            self.advance()
+            
+
+        #checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
+        if(lexeme in keywords):
+            return Token('Keyword', lexeme)
+        elif(lexeme in reserved_words):
+            return Token('Reserved_word', lexeme)
+        else:
+            return Token('Identifier', lexeme)
+
 def run(text):
     lexer = Lexer(text)
     tokens, errors = lexer.make_tokens()
 
     return tokens, errors
-
