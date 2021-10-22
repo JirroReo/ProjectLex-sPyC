@@ -19,4 +19,6 @@
 
 `(operation)*` = repeat operation 'til there's none
 
+#### Illustration
+
 ![Illustration Here](../assets/GrammarGuide.png)]
