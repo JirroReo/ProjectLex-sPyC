@@ -21,4 +21,4 @@
 
 #### Illustration
 
-![Illustration Here](../assets/GrammarGuide.png)]
+![Illustration Here](../assets/GrammarGuide.png)

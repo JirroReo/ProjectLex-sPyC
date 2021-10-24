@@ -31,4 +31,24 @@ $ cd ProjectLex
 #### Running the project
 
 On the base project directory:
-`python3 shell.py`
+```
+python3 shell.py
+```
+
+
+### Specs
+
+- English
+- Free formatted language 
+
+### Assignments
+
+| Role                   | Names                                                                       |
+|------------------------|-----------------------------------------------------------------------------|
+| Coding                 | Crisostomo, Joseph Karl                                                     |
+|                        | Reoloso, Jirro Dave                                                         |
+|                        | Villanueva, Ian Kirk                                                        |
+| Documentation          | Concepcion, Freanne Lei                                                     |
+|                        | Delos Santos, Rons Marie                                                    |
+|                        | Fernandez, Mikaela                                                          |
+|                        | Martinez, John Lloyd                                                        |
