@@ -6,23 +6,21 @@ from .position import Position
 class Lexer:
     """ Lexical Analyzer class
 
-        This class encapsulates all the operations of the lexical analysis
+        This class encapsulates all the operations of the lexical analyzer
 
         Args:
-            fn (:obj:`str`): The file stream where the input comes
-            text (:obj:`str`): The string of characters to be analyzed by the :obj:`Lexer`
+            fn (:obj:`str`): The file name
+            text (:obj:`str`): The string of characters stored in :obj:`fn` file
 
         Attributes:
-            fn (:obj:`str`): Filename where the input originates
+            fn (:obj:`str`): Filename where the :attr:`text` is stored
             text (:obj:`str`): String of text to be analyzed by the Lexer
-            pos (:obj:`Position`): The Position object that encapsulates the text, movement, and location of the scanner
-            current_character: Current character from the text
+            pos (:obj:`~Lex.position.Position`): The Position object that encapsulates the text, movement, and location of the scanner
+            current_character(:obj:`str`): Current character from the text
+
     """
 
     def __init__(self, fn, text):
-        """Lex Initialization
-
-        """
         self.fn = fn
         self.text = text
         self.pos = Position(-1, 0, -1, fn, text)
@@ -30,16 +28,16 @@ class Lexer:
         self.advance()
     
     def advance(self):
-        """Advances the current position of `pos` to the next character in `str` """
+        """Calls the :meth:`~Lex.position.Position.advance` method of :attr:`pos` to get the next character in the :attr:`text` """
 
         self.pos.advance(self.current_character)
         self.current_character = self.text[self.pos.idx] if self.pos.idx < len(self.text) else None
 
     def make_tokens(self):
-        """ Loop through the text's character while analyzing lexemes and converting it to tokens
+        """ Analyzes lexemes in :attr:`text` and converts it to :class:`~Lex.tokens.Token` and stores the results in a :obj:`list`
         
         Returns:
-            :obj:`tuple`: If success: tokens, None; otherwise, [], :obj:`IllegalCharacterError`
+            tuple: If success: tokens(:obj:`str`), None; otherwise, [], :class:`~Lex.errors.IllegalCharacterError`
 
         """
 
@@ -68,7 +66,8 @@ class Lexer:
         """Create a number token
         
         Returns:
-            :obj:`Token`: A :obj:`Token` which is either int or float (only these two are supported as of now) 
+            :class:`~Lex.tokens.Token`: A :class:`~Lex.tokens.Token` which is either has a :attr:`~Lex.tokens.Token.type` attribute 
+            containing either :obj:`int` or :obj:`float` (only these two are supported as of now) 
 
         """
         num_str = ''
@@ -90,10 +89,10 @@ class Lexer:
             return Token('FLOAT', float(num_str), pos_start, self.pos)
 
     def make_lexeme(self):
-        """Create a number token
+        """Captures :obj:`identifier`, :obj:`~Lex.constants.keywords`, and :obj:`~Lex.constants.reserved_words` lexemes 
         
         Returns:
-            :obj:`Token`: A :obj:`Token` which are either identifier, keywords, or reserved words 
+            :class:`~Lex.tokens.Token`: A :class:`~Lex.tokens.Token` which has an attribute :attr:`~Lex.tokens.Token.type` having a value of either "identifier", "keywords", or "reserved words" 
 
         """
 
