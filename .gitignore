@@ -1,2 +1,8 @@
 #ignore pycache
 __pycache__
+
+#ignore the documentation files
+docs/*
+
+#ignore the virtual environment files
+.venv/*
