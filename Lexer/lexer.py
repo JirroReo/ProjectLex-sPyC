@@ -1,7 +1,7 @@
-from .tokens import Token
-from .constants import TYPE_EOF, digits, types, alphabet, keywords, reserved_words
-from .errors import IllegalCharacterError
-from .position import Position
+from Components.tokens import Token
+from Components.constants import TYPE_EOF, digits, types, alphabet, keywords, reserved_words
+from Components.errors import IllegalCharacterError
+from Components.position import Position
 
 class Lexer:
     def __init__(self, fn, text):

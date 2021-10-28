@@ -1,4 +1,4 @@
-from .utils import string_with_arrows as strWithArrows
+from Utils.string_with_arrows import string_with_arrows as strWithArrows
 
 class Error:
     def __init__(self, pos_start, pos_end, error_name, details):
@@ -8,9 +8,9 @@ class Error:
         self.details = details
     
     def __str__(self):
-        result = f'{self.error_name}: {self.details}'
-        result += f'\nFile {self.pos_start.fn}, line {self.pos_start.ln + 1}'
-        result += '\n\n' + strWithArrows(self.pos_start.ftxt, self.pos_start, self.pos_end) 
+        result = '\n\n' + strWithArrows(self.pos_start.ftxt, self.pos_start, self.pos_end) 
+        result += '\n' + f'{self.error_name}: {self.details}'
+        result += f'\nFile {self.pos_start.fn}, line {self.pos_start.ln + 1}\n'
         return result
 
 class IllegalCharacterError(Error):

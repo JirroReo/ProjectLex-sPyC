@@ -3,6 +3,8 @@
 
 ###  Architecture
 
+The language is designed with the idea of low-level like C but user-friendly like Python, the goal is for it to be attractive to non-programmers but also be very powerful to experienced programmers.
+
 This project is built using these libraries/softwares:
 
 - [Python](https://www.python.org/)
@@ -34,12 +36,6 @@ On the base project directory:
 ```
 python3 shell.py
 ```
-
-
-### Specs
-
-- English
-- Free formatted language 
 
 ### Assignments
 

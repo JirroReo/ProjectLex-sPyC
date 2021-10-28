@@ -1,5 +1,5 @@
-from Lex.lexer import Lexer
-from Lex.parser import Parser
+from Lexer.lexer import Lexer
+from Parser.parser import Parser
 
 def run(fn, text):
     # Analyze lexigraph

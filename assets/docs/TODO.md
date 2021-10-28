@@ -12,3 +12,10 @@
 - Regex support
 
 =====
+
+#### Target specs
+
+- English
+- Free formatted language 
+- Low-level like C and BASIC, but easy to use like Python and Scratch
+- Layman's terms

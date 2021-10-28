@@ -1,6 +1,6 @@
-from .nodes import NumberNode, BinOpNode, UnaryOpNode
-from .errors import InvalidSyntaxError
-from .constants import TYPE_EOF
+from Components.nodes import NumberNode, BinOpNode, UnaryOpNode
+from Components.errors import InvalidSyntaxError
+from Components.constants import TYPE_EOF
 
 class ParseResult:
     def __init__(self):
