@@ -1,5 +1,7 @@
 from Lexer.lexer import Lexer
 from Parser.parser import Parser
+from Interpreter.interpreter import Interpreter
+from Components.errors import Context
 import sys
 
 def analyze_source(fn, text):
@@ -20,7 +22,14 @@ def run(fn, text):
     # Generate Abstract Syntax Tree 
     parser = Parser(tokens)
     ast = parser.parse()
-    return ast.node, ast.error
+    if ast.error: return None, ast.error
+
+    # Interpreter block, must have Parser enabled
+    interpreter = Interpreter()
+    context = Context('<program>') #root parent of tracebacks in errors, placeholder <program>
+    result = interpreter.visit(ast.node, context)
+
+    return result.value, result.error
 
 if __name__ == "__main__":
     if('-f' in sys.argv): # checks if the option f is provided as a command line argument

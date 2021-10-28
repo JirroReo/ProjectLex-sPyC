@@ -1,15 +1,22 @@
 ### To-do
 
 - Variables support `up next`
+- Functions support 
 - Conditionals support (if ifelse else)
-- Give ability to resolve expressions, not just parse and analyze
 - Add natural way to exit program apart from [^C]
-- File input support
 - Add output file
 
 ### Optionals
 - Seperate Lexer from Parser
 - Regex support
+
+### Completed
+- Lexer function
+- Parser function
+- Error handling
+- Traceback support
+- Interpreter function
+- File input support
 
 =====
 
