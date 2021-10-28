@@ -12,6 +12,7 @@ types = {
     '*' : 'MULTIPLY',
     '/' : 'DIVIDE',
     '%' : 'MODULO',
+    '^' : 'RAISED TO',
     '(' : 'LPAREN',
     ')' : 'RPAREN'
 }

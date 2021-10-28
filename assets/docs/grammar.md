@@ -11,10 +11,13 @@
 | Name                   | Description                                                                 |
 |------------------------|-----------------------------------------------------------------------------|
 | expression             | `term ((PLUS or MINUS) term)*`                                                   |
-| term                   | `factor ((MOD or MUL or DIV) factor)*`                                              |
-| factor                 | `INT or FLOAT`                                                                   |
-|                        | `(PLUS or MINUS) factor`                                                         |
-|                        | `LPAREN expression RPAREN`                                                    |
+| term                   | `factor ((MOD or MUL or DIV) factor)*`                                      |
+| factor                 | `(PLUS or MINUS) factor`                           |
+|                        | `power`                           |
+| power                  | `atom (RAISED TO factor)*`                             |
+| atom                   | `INT or FLOAT`                                                 |
+|                        | `LPAREN expression RPAREN`                                               |
+
 
 
 `(operation)*` = repeat operation 'til there's none

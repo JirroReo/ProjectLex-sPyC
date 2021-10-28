@@ -33,6 +33,8 @@ class Interpreter:
             result, error = left.divided_by(right)
         elif node.op_token.type == 'MODULO':
             result, error = left.divmod_by(right)
+        elif node.op_token.type == 'RAISED TO':
+            result, error = left.raised_to(right)
 
         if error: return res.failure(error)
         else: return res.success(result.set_pos(node.pos_start, node.pos_end))
