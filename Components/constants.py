@@ -4,24 +4,82 @@ TYPE_EOF = 'End of file'
 digits = '0123456789'
 """int: Contains the digits that are supported by the lexer"""
 
-types = {
-    'int' : 'Integer', #String literal int
-    'float' : 'Float', #String literal float
+delimiters = {
+    ' ' : 'SPACE',
+    ';' : 'SEMICOLON',
+    ',' : 'COMMA',
+    '\n': 'NEWLINE',
+    '\t': 'TAB'
+}
+special_characters = {
+    '.' : 'PERIOD',
+    '#' : 'COMMENT',
+    '(' : 'LPAREN',
+    ')' : 'RPAREN',
     '+' : 'PLUS',
     '-' : 'MINUS',
     '*' : 'MULTIPLY',
     '/' : 'DIVIDE',
     '%' : 'MODULO',
-    '(' : 'LPAREN',
-    ')' : 'RPAREN'
+    '^' : 'POWER',
+    '\\': 'BACKSLASH',
+    "'" : 'APOSTROPHE',
+    '"' : 'QUOTE',
+    '!' : 'EXCLAMATION',
+    '[' : 'LBRACKET',
+    ']' : 'RBRACKET',
+    '{' : 'LBRACE',
+    '}' : 'RBRACE',
+    '>' : 'GREATER',
+    '<' : 'LESS',
+    '=' : 'ASSIGN'
 }
-"""dict: Contains data types, operators and other special characters"""
+"""dict: operators and other special characters"""
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 """str: The alphabet for the programming language"""
 
+types = {
+    'int' : 'INTEGER', #String literal int
+    'float' : 'FLOAT', #String literal float
+    'string': 'STRING'
+}
+"""dict: Contains data types"""
+
 reserved_words = {}
 """dict: Contains the reserved words for the programming langauge"""
 
-keywords = ["keyword", "token"]
-"""list: Contains the keywords for the programming language"""
+keywords = [
+    'as',
+    'assert',
+    'break',
+    'bool',
+    'char',
+    'class',
+    'continue',
+    'def',
+    'del',
+    'otherwise',
+    'except',
+    'finally',
+    'False',
+    'for',
+    'from',
+    'global',
+    'whenever',
+    'import',
+    'in',
+    'is',
+    'lambda',
+    'nonlocal',
+    'None',
+    'pass',
+    'raise',
+    'return',
+    'True',
+    'try',
+    'with',
+    'while',
+    'yield'
+]
+"""list: Contains keywords"""
