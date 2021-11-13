@@ -1,5 +1,5 @@
 from Components.tokens import Token
-from Components.constants import TYPE_EOF, digits, types, alphabet, keywords, reserved_words
+from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types
 from Components.errors import IllegalCharacterError
 from Components.position import Position
 
@@ -44,13 +44,30 @@ class Lexer:
         tokens = [] # store the list of tokens
 
         while self.current_character is not None:# loop while there is a character to read
-            if self.current_character in ' \t':# if the character is a tab or space, ignore
+            if self.current_character in delimiters:# if the character is a tab or space, ignore
                 self.advance()
-            elif self.current_character in types:# if the current character is in types, push the token
-                tokens.append(Token(types[self.current_character], pos_start=self.pos))
-                self.advance()
+
+            elif self.current_character in special_characters:# if the current character is in types, push the token
+                if(self.current_character == '\'' or self.current_character == '"'):
+                    end_signal = self.current_character # save the character used to start the string literal (either ' or ")
+                    str_literal = self.current_character
+                    self.advance()
+
+                    while(self.current_character != end_signal):
+                        str_literal += self.current_character
+                        self.advance()
+
+                    str_literal += self.current_character #add the string literal terminator to the string (either ' or ")
+                    tokens.append(Token("STR_LIT", str_literal, pos_start=self.pos))
+                    self.advance()
+
+                else: 
+                    tokens.append(Token(special_characters[self.current_character], self.current_character, pos_start=self.pos))
+                    self.advance()
+
             elif self.current_character in digits:# if the current character is in the digits, create number
                 tokens.append(self.make_number())
+                
             elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
                 tokens.append(self.make_lexeme())
             else:# If the character didn't pass all the other conditions, return an error
@@ -59,7 +76,7 @@ class Lexer:
                 self.advance()
                 return [], IllegalCharacterError(pos_start, self.pos, "'" + char +"'")
 
-        tokens.append(Token(TYPE_EOF, pos_start=self.pos)) #Append the EOF token
+        tokens.append(Token("TYPE_EOF", TYPE_EOF, pos_start=self.pos)) #Append the EOF token
         return tokens, None
     
     def make_number(self):
@@ -84,9 +101,9 @@ class Lexer:
             self.advance()
 
         if dot_count == 0:
-            return Token('INT', int(num_str), pos_start, self.pos)
+            return Token('INT_LIT', int(num_str), pos_start, self.pos)
         else:
-            return Token('FLOAT', float(num_str), pos_start, self.pos)
+            return Token('FLOAT_LIT', float(num_str), pos_start, self.pos)
 
     def make_lexeme(self):
         """Captures :obj:`identifier`, :obj:`~Lex.constants.keywords`, and :obj:`~Lex.constants.reserved_words` lexemes 
@@ -110,5 +127,7 @@ class Lexer:
             return Token('KEYWORD', lexeme, pos_start, self.pos)
         elif(lexeme in reserved_words):
             return Token('RESERVED_WORD', lexeme, pos_start, self.pos)
+        elif(lexeme in types):
+            return Token("DATA_TYPE", types[lexeme], pos_start, self.pos)
         else:
             return Token('IDENTIFIER', lexeme, pos_start, self.pos)
