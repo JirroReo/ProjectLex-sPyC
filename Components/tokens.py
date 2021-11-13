@@ -34,3 +34,20 @@ class Token:
         """
         if self.value: return f'{self.type}: {self.value}'
         return f'{self.type}'
+
+    def __str__(self):
+        if self.value: return format(self.type,'>10') + '      ' + str(self.value)
+        return f'{self.type}'
+
+
+def print_tokens(tokens):
+    """ Prints an array of :obj:`Token` in a table like format (type, value)
+
+    Arguments:
+        tokens(:obj:`list`): an array of :obj:`Token` 
+
+
+    """
+    for token in tokens:
+        print(token)
+    pass
