@@ -1,6 +1,6 @@
 from Components.tokens import Token
 from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types
-from Components.errors import IllegalCharacterError
+from Components.errors import IllegalCharacterError, UnexpectedCharacterError
 from Components.position import Position
 
 class Lexer:
@@ -26,6 +26,7 @@ class Lexer:
         self.pos = Position(-1, 0, -1, fn, text)
         self.current_character = None
         self.advance()
+        self.tokens = []
     
     def advance(self):
         """Calls the :meth:`~Lex.position.Position.advance` method of :attr:`pos` to get the next character in the :attr:`text` """
@@ -41,7 +42,7 @@ class Lexer:
 
         """
 
-        tokens = [] # store the list of tokens
+        # tokens = [] # store the list of tokens  ---> i made this variable an instance variable
 
         while self.current_character is not None:# loop while there is a character to read
             if self.current_character in delimiters:# if the character is a tab or space, ignore
@@ -58,26 +59,31 @@ class Lexer:
                         self.advance()
 
                     str_literal += self.current_character #add the string literal terminator to the string (either ' or ")
-                    tokens.append(Token("STR_LIT", str_literal, pos_start=self.pos))
+                    self.tokens.append(Token("STR_LIT", str_literal, pos_start=self.pos))
                     self.advance()
 
                 else: 
-                    tokens.append(Token(special_characters[self.current_character], self.current_character, pos_start=self.pos))
+                    self.tokens.append(Token(special_characters[self.current_character], self.current_character, pos_start=self.pos))
                     self.advance()
 
             elif self.current_character in digits:# if the current character is in the digits, create number
-                tokens.append(self.make_number())
+                self.tokens.append(self.make_number())
                 
             elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
-                tokens.append(self.make_lexeme())
+                output = self.make_lexeme()
+                if(isinstance(output, Token)):
+                    self.tokens.append(output)
+                else:
+                    return output
+
             else:# If the character didn't pass all the other conditions, return an error
                 pos_start = self.pos.copy()
                 char = self.current_character
                 self.advance()
                 return [], IllegalCharacterError(pos_start, self.pos, "'" + char +"'")
 
-        tokens.append(Token("TYPE_EOF", TYPE_EOF, pos_start=self.pos)) #Append the EOF token
-        return tokens, None
+        self.tokens.append(Token("TYPE_EOF", TYPE_EOF, pos_start=self.pos)) #Append the EOF token
+        return self.tokens, None
     
     def make_number(self):
         """Create a number token
@@ -118,6 +124,10 @@ class Lexer:
 
         # assuming (for now) that identifiers can only contain alphabet and digits
         while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
+            if(len(self.tokens) > 0 and not(self.tokens[-1].value == 'def' or self.tokens[-1].value == 'class')):
+                if(self.current_character.isupper()):
+                    if(not(lexeme in types)):
+                        return [], UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
             lexeme += self.current_character
             self.advance()
             
