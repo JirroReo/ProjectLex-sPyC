@@ -48,6 +48,19 @@ class Lexer:
             if self.current_character in delimiters:# if the character is a tab or space, ignore
                 self.advance()
 
+            elif self.current_character == '#':
+                pos_start = self.pos.copy()
+                lexeme = self.current_character
+                self.advance()
+                while(self.current_character != '#'):# get all the characters until # is not encountered
+                    lexeme += self.current_character
+                    self.advance()
+
+                lexeme += self.current_character
+                self.advance()
+                print('lexeme - ', lexeme, " --> ", self.current_character)
+                self.tokens.append(Token("COMMENT", lexeme, pos_start, self.pos))
+
             elif self.current_character in special_characters:# if the current character is in types, push the token
                 if(self.current_character == '\'' or self.current_character == '"'):
                     end_signal = self.current_character # save the character used to start the string literal (either ' or ")
