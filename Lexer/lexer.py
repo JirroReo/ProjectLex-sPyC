@@ -1,5 +1,5 @@
 from Components.tokens import Token
-from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types
+from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types, operators, spaces
 from Components.errors import IllegalCharacterError, UnexpectedCharacterError
 from Components.position import Position
 
@@ -45,39 +45,38 @@ class Lexer:
         # tokens = [] # store the list of tokens  ---> i made this variable an instance variable
 
         while self.current_character is not None:# loop while there is a character to read
-            if self.current_character in delimiters:# if the character is a tab or space, ignore
+
+            if self.current_character in spaces:# ignore spaces
                 self.advance()
 
-            elif self.current_character == '#':
-                pos_start = self.pos.copy()
-                lexeme = self.current_character
-                self.advance()
-                while(self.current_character != '#'):# get all the characters until # is not encountered
-                    lexeme += self.current_character
-                    self.advance()
-
-                lexeme += self.current_character
-                self.advance()
-                print('lexeme - ', lexeme, " --> ", self.current_character)
-                self.tokens.append(Token("COMMENT", lexeme, pos_start, self.pos))
+            elif self.current_character in delimiters:# if the character is a tab or space, ignore
+                output = self.scan_delimeter()
+                if(isinstance(output, Token)):
+                    self.tokens.append(output)
 
             elif self.current_character in special_characters:# if the current character is in types, push the token
-                if(self.current_character == '\'' or self.current_character == '"'):
-                    end_signal = self.current_character # save the character used to start the string literal (either ' or ")
-                    str_literal = self.current_character
-                    self.advance()
+                if self.current_character == '#':# check if the current character is a comment indicator
+                    output = self.scan_comment()
+                    if(isinstance(output, Token)):
+                        self.tokens.append(output)
 
-                    while(self.current_character != end_signal):
-                        str_literal += self.current_character
-                        self.advance()
+                elif(self.current_character == '\'' or self.current_character == '"'):# check whether the current character is a string indicator
+                    output = self.scan_string_literal()
+                    if(isinstance(output, Token)):
+                        self.tokens.append(output)
+            
+                else:# create a token for the special character
+                    output = self.scan_special_character()
+                    if(isinstance(output, Token)):
+                        self.tokens.append(output)
+                    
 
-                    str_literal += self.current_character #add the string literal terminator to the string (either ' or ")
-                    self.tokens.append(Token("STR_LIT", str_literal, pos_start=self.pos))
-                    self.advance()
-
-                else: 
-                    self.tokens.append(Token(special_characters[self.current_character], self.current_character, pos_start=self.pos))
-                    self.advance()
+            elif self.current_character in operators:
+                output = self.scan_operator()
+                if(isinstance(output, Token)):
+                    self.tokens.append(output)
+                else:
+                    return [], output
 
             elif self.current_character in digits:# if the current character is in the digits, create number
                 self.tokens.append(self.make_number())
@@ -85,9 +84,11 @@ class Lexer:
             elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
                 output = self.make_lexeme()
                 if(isinstance(output, Token)):
+                    print(output)
                     self.tokens.append(output)
                 else:
-                    return output
+                    print(output)
+                    return [], output
 
             else:# If the character didn't pass all the other conditions, return an error
                 pos_start = self.pos.copy()
@@ -98,6 +99,56 @@ class Lexer:
         self.tokens.append(Token("TYPE_EOF", TYPE_EOF, pos_start=self.pos)) #Append the EOF token
         return self.tokens, None
     
+    def scan_delimeter(self):
+        token = Token(delimiters[self.current_character], self.current_character, self.pos, self.pos)
+        self.advance()
+
+        return token
+        
+    def scan_comment(self):
+        pos_start = self.pos.copy()
+        lexeme = self.current_character
+        self.advance()
+        while(self.current_character != '#'):# get all the characters until # is not encountered
+            lexeme += self.current_character
+            self.advance()
+
+        lexeme += self.current_character
+        self.advance()
+        
+        return Token("COMMENT", lexeme, pos_start, self.pos)
+        
+    def scan_string_literal(self):
+        end_signal = self.current_character # save the character used to start the string literal (either ' or ")
+        str_literal = self.current_character
+        self.advance()
+
+        while(self.current_character != end_signal):
+            str_literal += self.current_character
+            self.advance()
+
+        str_literal += self.current_character #add the string literal terminator to the string (either ' or ")
+        self.advance()
+        return Token("STR_LIT", str_literal, pos_start=self.pos)
+
+    def scan_special_character(self):
+        token = Token(special_characters[self.current_character], self.current_character, pos_start=self.pos)
+        self.advance()
+
+        return token
+        
+    def scan_operator(self):
+        """Scan operator lexemes"""
+        pos_start = self.pos.copy()
+        operator = self.current_character
+        self.advance()
+
+        while(self.current_character in operators):
+            operator += self.current_character
+            self.advance()
+        
+        return Token(operators[operator], operator, pos_start, self.pos)
+
     def make_number(self):
         """Create a number token
         
@@ -137,14 +188,17 @@ class Lexer:
 
         # assuming (for now) that identifiers can only contain alphabet and digits
         while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
-            if(len(self.tokens) > 0 and not(self.tokens[-1].value == 'def' or self.tokens[-1].value == 'class')):
-                if(self.current_character.isupper()):
-                    if(not(lexeme in types)):
-                        return [], UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
+            if(len(self.tokens) > 0):
+                index = -1
+                while(self.tokens[index].value in delimiters):
+                    index -= 1
+                if(not(self.tokens[index].value == 'def' or self.tokens[index].value == 'class')):
+                    if(self.current_character.isupper()):
+                        if(not(lexeme in types)):
+                            return UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
             lexeme += self.current_character
             self.advance()
             
-
         #checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
         if(lexeme in keywords):
             return Token('KEYWORD', lexeme, pos_start, self.pos)
