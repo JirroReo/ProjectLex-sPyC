@@ -4,24 +4,50 @@ TYPE_EOF = 'End of file'
 digits = '0123456789'
 """int: Contains the digits that are supported by the lexer"""
 
-delimiters = {
+spaces = {
     ' ' : 'SPACE',
-    ';' : 'SEMICOLON',
-    ',' : 'COMMA',
     '\n': 'NEWLINE',
     '\t': 'TAB'
 }
-special_characters = {
-    '.' : 'PERIOD',
-    '#' : 'COMMENT',
-    '(' : 'LPAREN',
-    ')' : 'RPAREN',
+"""dict: spaces"""
+
+delimiters = {
+    ';' : 'SEMICOLON',
+    ',' : 'COMMA',
+}
+"""dict: delimiters """
+
+operators = {
     '+' : 'PLUS',
     '-' : 'MINUS',
     '*' : 'MULTIPLY',
     '/' : 'DIVIDE',
     '%' : 'MODULO',
     '^' : 'POWER',
+    '>' : 'GREATER',
+    '<' : 'LESS',
+    '=' : 'ASSIGN',
+    '>=': 'GREATEROREQUAL',
+    '<=': 'LESSOREQUAL',
+    '==': 'EQUAL',
+    '+=': 'PLUSASSIGN',
+    '-=': 'MINUSASSIGN',
+    '*=': 'MULTIPLYASSIGN',
+    '/=': 'DIVIDEASSIGN',
+    '%=': 'MODULOASSIGN',
+    '^=': 'POWERASSIGN',
+    '&&': 'LOGICALAND',
+    '||': 'LOGICALOR',
+    '&' : 'AND',
+    '|' : 'OR'
+}
+"""dict: special characters"""
+
+special_characters = {
+    '.' : 'PERIOD',
+    '#' : 'COMMENT',
+    '(' : 'LPAREN',
+    ')' : 'RPAREN',
     '\\': 'BACKSLASH',
     "'" : 'APOSTROPHE',
     '"' : 'QUOTE',
@@ -30,11 +56,8 @@ special_characters = {
     ']' : 'RBRACKET',
     '{' : 'LBRACE',
     '}' : 'RBRACE',
-    '>' : 'GREATER',
-    '<' : 'LESS',
-    '=' : 'ASSIGN'
 }
-"""dict: operators and other special characters"""
+"""dict: special characters"""
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 """str: The alphabet for the programming language"""
@@ -80,6 +103,8 @@ keywords = [
     'try',
     'with',
     'while',
-    'yield'
+    'yield',
+    'if',
+    'else'
 ]
 """list: Contains keywords"""
