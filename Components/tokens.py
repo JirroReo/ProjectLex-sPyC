@@ -36,7 +36,7 @@ class Token:
         return f'{self.type}'
 
     def __str__(self):
-        if self.value: return format(self.type,'>10') + '      ' + str(self.value)
+        if self.value: return format(self.type,'>15') + '      ' + str(self.value)
         return f'{self.type}'
 
 
