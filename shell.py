@@ -36,8 +36,8 @@ if __name__ == "__main__":
             head, filename = os.path.split(filepath)
             print('filename: ', filename) #output the file name
             print('\n')
-            print('TOKENS\t\tLEXEMES')
-            print('------------------------')
+            print(format('TOKENS', '>15'), '    ', 'LEXEMES')
+            print('------------------------------------------')
 
 
             try: # 
