@@ -51,3 +51,11 @@ def print_tokens(tokens):
     for token in tokens:
         print(token)
     pass
+
+
+def to_symbol_table(tokens):
+    string = ''
+    for token in tokens:
+        string += str(token) + '\n'
+
+    return string
