@@ -32,3 +32,8 @@ class InvalidSyntaxError(Error):
     """Error object for invalid syntax"""
     def __init__(self, pos_start, pos_end, details=''):
         super().__init__(pos_start, pos_end, 'Invalid Syntax', details)
+
+class UnexpectedCharacterError(Error):
+    """Error object for illegal character"""
+    def __init__(self, pos_start, pos_end, details):
+        super().__init__(pos_start, pos_end, 'Unexpected Character', details)
