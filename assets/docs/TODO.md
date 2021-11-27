@@ -3,7 +3,6 @@
 - Variables support `up next`
 - Functions support 
 - Conditionals support (if ifelse else)
-- Add natural way to exit program apart from [^C]
 - Add output file
 
 ### Optionals
@@ -17,6 +16,7 @@
 - Traceback support
 - Interpreter function
 - File input support
+- Add natural way to exit program apart from `Added quit()`
 
 =====
 

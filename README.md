@@ -1,4 +1,4 @@
-## Project Lex
+## Project Lex: sPyC
 ===========
 
 ###  Architecture
