@@ -72,8 +72,11 @@ if __name__ == "__main__":
 
         if(not(filename)): #if the filename is not false
             filename = 'symbolTable'
+
+        if(not(filename.endswith('.txt'))):
+            filename += '.txt'
         
-        with open(filename + '.txt','w',encoding = 'utf-8') as f:
+        with open(filename, 'w',encoding = 'utf-8') as f:
             f.write(format('TOKENS', '>15') + '       ' + 'LEXEMES' + '\n')
             f.write('------------------------------------------\n')
             f.write(to_symbol_table(tokens))

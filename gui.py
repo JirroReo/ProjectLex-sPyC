@@ -22,7 +22,7 @@ class LexicalAnalyzerGUI(QWidget):
         self.setLayout(layout)
 
     def setupWidgets(self):
-        self.resize(200, 200)
+        self.resize(300, 500)
         self.setWindowTitle("Lexical Analyzer GUI")
         self.fileInputBtn = QPushButton("Select File")
         self.fileInputBtn.clicked.connect(self.getFile)
@@ -36,8 +36,8 @@ class LexicalAnalyzerGUI(QWidget):
         if dialog.exec_():
             filepaths = dialog.selectedFiles()
             filepath = filepaths[0]
-            if filepath.endswith('.py') or filepath.endswith('.txt'):# check if the filename extension is supported
-                output = subprocess.run('python shell.py -f ' + '"' + filepath + '"', shell=True, capture_output=True)# execute the lexical analyzer script
+            if filepath.endswith('.spyc'):# check if the filename extension is supported
+                output = subprocess.run('python shell.py -o -f ' + '"' + filepath + '"', shell=True, capture_output=True)# execute the lexical analyzer script
                 # print('OUTPUT:' + output.stdout.decode('UTF-8'))
                 self.textEditor.setPlainText(output.stdout.decode('UTF-8')) # output the result of the lexical analyzer to the texteditor
                 
