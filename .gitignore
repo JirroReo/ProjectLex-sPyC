@@ -6,3 +6,6 @@ docs/*
 
 #ignore the virtual environment files
 .venv/*
+
+#ignore the test files
+test.txt
