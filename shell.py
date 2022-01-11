@@ -17,46 +17,49 @@ def run(fn, text):
     lexer = Lexer(fn, text)
     tokens, error = lexer.make_tokens()
     if error: return None, error
-    return tokens, error
-    # ^ [Uncomment if gonna use Lexicographical Analyzer]
 
-    # v [Turn block into comment if gonna use Parser]
+    return tokens, error
+    # ^ [Lexer]
+
+    # v [Parser]
     # Generate Abstract Syntax Tree 
     # parser = Parser(tokens)
     # ast = parser.parse()
     # return ast.node, ast.error
 
 if __name__ == "__main__":
-    tokens = []#variable for the token arrays
+    tokens = [] #variable for the token arrays
 
-    if('-f' in sys.argv): # checks if the option f is provided as a command line argument
-        fileOptionIdx = sys.argv.index('-f') #file option index
+    if('-f' in sys.argv or '--filename' in sys.argv): # checks if the option f is provided as a command line argument
+        fileOptionIdx = sys.argv.index('-f') if ('-f' in sys.argv) else sys.argv.index('--filename') #file option index
         fileOptionArgIdx = fileOptionIdx + 1 # file option argument index
 
         # ensures that an file option argument is given and that it does not start with '-'
         filepath = sys.argv[fileOptionArgIdx] if len(sys.argv) > fileOptionArgIdx and sys.argv[fileOptionArgIdx][0] != '-' else False
-        
+        head, filename = os.path.split(filepath)
+
         if(filepath): #if the filename is not false
-            head, filename = os.path.split(filepath)
-            print('filename: ', filename) #output the file name
-            print('\n')
-            print(format('TOKENS', '>15'), '    ', 'LEXEMES')
-            print('------------------------------------------')
+            if(filename.lower().endswith('.spyc')):
+                print('filename: ', filename) #output the file name
+                print('\n')
+                print(format('TOKENS', '>15'), '    ', 'LEXEMES')
+                print('------------------------------------------')
 
 
-            try: # 
-                with open(filepath, 'r') as f: #Open the file
-                    text = f.read() # get the whole text in the file
-                    tokens = analyze_source(filepath, text) # run the lexical and syntax analyzer 
+                try: # 
+                    with open(filepath, 'r') as f: #Open the file
+                        text = f.read() # get the whole text in the file
+                        tokens = analyze_source(filepath, text) # run the lexical and syntax analyzer 
 
-            except FileNotFoundError: #catch the error when FileNotFoundError occurs
-                print('File not found!')
+                except FileNotFoundError: #catch the error when FileNotFoundError occurs
+                    print('File not found!')
+            else: print('Invalid file format, please use a .spyc file.')
         else: # invalid or missing argument for file option
             print("Missing or invalid argument for option -f")
 
     else: # if no command line argument is provided
         while True:
-            text = input('lex > ')
+            text = input('sPyC > ')
             tokens = analyze_source('<stdin>', text)
             # else: print(*result, sep="\n")
 

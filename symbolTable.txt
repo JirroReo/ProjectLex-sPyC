@@ -1,0 +1,12 @@
+         TOKENS       LEXEMES
+------------------------------------------
+        INT_LIT      5
+           PLUS      +
+        INT_LIT      4
+          MINUS      -
+        INT_LIT      3
+       MULTIPLY      *
+        INT_LIT      2
+         DIVIDE      /
+        INT_LIT      1
+       TYPE_EOF      End of file
