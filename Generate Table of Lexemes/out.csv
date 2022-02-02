@@ -1,0 +1,13 @@
+%,arithmetic_operator,10 
++,arithmetic_operator,1 
+-,arithmetic_operator,3 
+/,arithmetic_operator,14 
+//,arithmetic_operator,7 
+1,undefined_type,9 
+123,undefined_type,11 
+2,undefined_type,6 
+3,undefined_type,4 
+34,undefined_type,15 
+4,undefined_type,2 
+52,undefined_type,-1 
+^,arithmetic_operator,5 
