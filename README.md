@@ -40,7 +40,9 @@ python3 spyc.py
 ```
 python spyc.py
 ```
-
+```
+python spyc.py -f <file.spyc> -o <outputfilename>
+```
 ```
 ./spyc
 ```
