@@ -53,7 +53,7 @@ class Parser:
             if res.error: return res
             return res.success(UnaryOpNode(tok, factor))
 
-        elif tok.type in ('INT', 'FLOAT'):
+        elif tok.type in ('INT_LIT', 'FLOAT_LIT'):
             res.register(self.advance())
             return res.success(NumberNode(tok))
         
