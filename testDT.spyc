@@ -1,0 +1,36 @@
+class Shape {
+    #this is a comment#
+
+
+    def Area();#this is comment 1#
+}
+
+#this is a comment 2#
+for a in b {
+    write(a);
+    int c = d;
+    string e = "hello" + 'world';
+    intIdentifier= a;
+
+    1abc = 31;
+}
+
+intVar = 100;
+
+if(c >= d && d <= x){
+    intVar *= 10;
+} else {
+    intVar ^= 9; 
+}
+
+
+def Func() {
+    whenever x <= 55 {
+	
+        f = read('Input a string');
+
+    } otherwise {
+        pass
+    }
+
+}
