@@ -78,6 +78,7 @@ reserved_words = [
 """list: Contains the reserved words for the programming langauge"""
 
 keywords = [
+    'const',
     'as',
     'assert',
     'break',
