@@ -24,12 +24,14 @@ operators = {
     '/' : 'DIVIDE',
     '%' : 'MODULO',
     '^' : 'POWER',
+    '//' : 'FLOORDIVIDE',
     '>' : 'GREATER',
     '<' : 'LESS',
     '=' : 'ASSIGN',
     '>=': 'GREATEROREQUAL',
     '<=': 'LESSOREQUAL',
     '==': 'EQUAL',
+    '!=': 'NOTEQUAL',
     '+=': 'PLUSASSIGN',
     '-=': 'MINUSASSIGN',
     '*=': 'MULTIPLYASSIGN',
@@ -39,7 +41,8 @@ operators = {
     '&&': 'LOGICALAND',
     '||': 'LOGICALOR',
     '&' : 'AND',
-    '|' : 'OR'
+    '|' : 'OR',
+    '!' : 'NOT',
 }
 """dict: special characters"""
 
@@ -51,7 +54,6 @@ special_characters = {
     '\\': 'BACKSLASH',
     "'" : 'APOSTROPHE',
     '"' : 'QUOTE',
-    '!' : 'EXCLAMATION',
     '[' : 'LBRACKET',
     ']' : 'RBRACKET',
     '{' : 'LBRACE',
@@ -69,19 +71,25 @@ types = {
 }
 """dict: Contains data types"""
 
-reserved_words = {}
-"""dict: Contains the reserved words for the programming langauge"""
+reserved_words = [
+]
+
+"""list: Contains the reserved words for the programming langauge"""
 
 keywords = [
     'as',
     'assert',
     'break',
     'bool',
+    'boolean', # HAHA Boolboolean
     'char',
+    'character',
     'class',
     'continue',
     'def',
+    'define',
     'del',
+    'delete',
     'otherwise',
     'except',
     'finally',
@@ -92,17 +100,21 @@ keywords = [
     'whenever',
     'import',
     'in',
-    'is',
+    'int',
+    'integer',
     'lambda',
     'nonlocal',
     'None',
     'pass',
     'raise',
+    'read',
     'return',
     'True',
     'try',
     'with',
     'while',
+    'within',
+    'write',
     'yield',
     'if',
     'else'

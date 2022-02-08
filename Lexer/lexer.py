@@ -44,28 +44,28 @@ class Lexer:
 
         # tokens = [] # store the list of tokens  ---> i made this variable an instance variable
 
-        while self.current_character is not None:# loop while there is a character to read
+        while self.current_character is not None: # loop while there is a character to read
 
-            if self.current_character in spaces:# ignore spaces
+            if self.current_character in spaces: # ignore spaces
                 self.advance()
 
-            elif self.current_character in delimiters:# if the character is a tab or space, ignore
+            elif self.current_character in delimiters: # if the character is a tab or space, ignore
                 output = self.scan_delimeter()
                 if(isinstance(output, Token)):
                     self.tokens.append(output)
 
-            elif self.current_character in special_characters:# if the current character is in types, push the token
-                if self.current_character == '#':# check if the current character is a comment indicator
+            elif self.current_character in special_characters: # if the current character is in types, push the token
+                if self.current_character == '#': # check if the current character is a comment indicator
                     output = self.scan_comment()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
 
-                elif(self.current_character == '\'' or self.current_character == '"'):# check whether the current character is a string indicator
+                elif(self.current_character == '\'' or self.current_character == '"'): # check whether the current character is a string indicator
                     output = self.scan_string_literal()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
             
-                else:# create a token for the special character
+                else: # create a token for the special character
                     output = self.scan_special_character()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
@@ -78,16 +78,14 @@ class Lexer:
                 else:
                     return [], output
 
-            elif self.current_character in digits:# if the current character is in the digits, create number
+            elif self.current_character in digits: # if the current character is in the digits, create number
                 self.tokens.append(self.make_number())
                 
-            elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
+            elif self.current_character in alphabet: # if the current character is in the alphabet, check if identifier or keywords
                 output = self.make_lexeme()
                 if(isinstance(output, Token)):
-                    print(output)
                     self.tokens.append(output)
                 else:
-                    print(output)
                     return [], output
 
             else:# If the character didn't pass all the other conditions, return an error
@@ -185,7 +183,6 @@ class Lexer:
 
         lexeme = ''
         pos_start = self.pos.copy()
-
         # assuming (for now) that identifiers can only contain alphabet and digits
         while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
             if(len(self.tokens) > 0):
@@ -199,7 +196,10 @@ class Lexer:
             lexeme += self.current_character
             self.advance()
             
-        #checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
+        if(lexeme == 'quit'): # if lexeme is quit then stop program.
+            exit()
+    
+        # checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
         if(lexeme in keywords):
             return Token('KEYWORD', lexeme, pos_start, self.pos)
         elif(lexeme in reserved_words):
