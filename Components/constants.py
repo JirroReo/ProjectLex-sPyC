@@ -17,6 +17,13 @@ delimiters = {
 }
 """dict: delimiters """
 
+constants = [
+    'MathPi',
+    'PhysicsSIGravity',
+    'ChemRydberg',
+    'TimeSinD'
+]
+
 operators = {
     '+' : 'PLUS',
     '-' : 'MINUS',
@@ -67,8 +74,19 @@ alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 types = {
     'int' : 'INTEGER', #String literal int
     'float' : 'FLOAT', #String literal float
-    'string': 'STRING'
+    'string': 'STRING',
+    'bool' : 'BOOL',
+    'boolean' : 'BOOLEAN',
+    'char' : 'CHAR',
+    'character': 'CHARACTER' 
 }
+
+boolean_literal = [
+    'True',
+    'False'
+]
+
+
 """dict: Contains data types"""
 
 reserved_words = [
@@ -82,10 +100,6 @@ keywords = [
     'as',
     'assert',
     'break',
-    'bool',
-    'boolean', # HAHA Boolboolean
-    'char',
-    'character',
     'class',
     'continue',
     'def',
@@ -95,7 +109,6 @@ keywords = [
     'otherwise',
     'except',
     'finally',
-    'False',
     'for',
     'from',
     'global',
@@ -110,7 +123,6 @@ keywords = [
     'raise',
     'read',
     'return',
-    'True',
     'try',
     'while',
     'within',

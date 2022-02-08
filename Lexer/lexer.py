@@ -1,5 +1,5 @@
 from Components.tokens import Token
-from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types, operators, spaces
+from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types, operators, spaces, constants, boolean_literal
 from Components.errors import IllegalCharacterError, UnexpectedCharacterError
 from Components.position import Position
 
@@ -184,21 +184,27 @@ class Lexer:
         lexeme = ''
         pos_start = self.pos.copy()
         # assuming (for now) that identifiers can only contain alphabet and digits
-        while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
-            if(len(self.tokens) > 0):
-                index = -1
-                while(self.tokens[index].value in delimiters):
-                    index -= 1
-                if(not(self.tokens[index].value == 'def' or self.tokens[index].value == 'class')):
-                    if(self.current_character.isupper()):
-                        if(not(lexeme in types)):
-                            return UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
-            lexeme += self.current_character
-            self.advance()
+        if(self.current_character.isupper()):
+            while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
+                lexeme += self.current_character
+                self.advance()
+        else:
+            while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
+                if(len(self.tokens) > 0):
+                    index = -1
+                    while((index + len(self.tokens) != 0) and self.tokens[index].value in delimiters):
+                        index -= 1
+                    if(not(self.tokens[index].value == 'def' or self.tokens[index].value == 'class')):
+                        if(self.current_character.isupper()):
+                            if(not(lexeme in types)):
+                                return UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
+                lexeme += self.current_character
+                self.advance()
             
         if(lexeme == 'quit'): # if lexeme is quit then stop program.
             exit()
     
+        print('lexeme:', lexeme)
         # checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
         if(lexeme in keywords):
             return Token('KEYWORD', lexeme, pos_start, self.pos)
@@ -206,5 +212,9 @@ class Lexer:
             return Token('RESERVED_WORD', lexeme, pos_start, self.pos)
         elif(lexeme in types):
             return Token("DATA_TYPE", types[lexeme], pos_start, self.pos)
+        elif(lexeme in constants):
+            return Token("CONSTANT", lexeme, pos_start, self.pos)
+        elif(lexeme in boolean_literal):
+            return Token("BOOLEAN_LITERAL", lexeme, pos_start, self.pos)    
         else:
             return Token('IDENTIFIER', lexeme, pos_start, self.pos)

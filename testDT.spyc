@@ -1,4 +1,4 @@
-class Shape {
+; class Shape {
     #this is a comment#
 
 
@@ -16,11 +16,13 @@ for a within b {
 }
 
 intVar = 100;
+boolVar = True;
 
 if(c >= d && d <= x){
     intVar *= 10;
 } else {
-    intVar ^= 9; 
+    intVar ^= 9;
+    intVar += MathPi
 }
 
 
