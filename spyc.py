@@ -18,14 +18,14 @@ def run(fn, text):
     tokens, error = lexer.make_tokens()
     if error: return None, error
 
-    # return tokens, error
+    return tokens, error
     # ^ [Lexer]
 
     # v [Parser]
     # Generate Abstract Syntax Tree 
-    parser = Parser(tokens)
-    ast = parser.parse()
-    return ast.node, ast.error
+    # parser = Parser(tokens)
+    # ast = parser.parse()
+    # return ast.node, ast.error
 
 if __name__ == "__main__":
     tokens = [] #variable for the token arrays
