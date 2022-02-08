@@ -27,6 +27,24 @@ def run(fn, text):
     # ast = parser.parse()
     # return ast.node, ast.error
 
+def write_to_file(tokens):
+    fileOptionIdx = sys.argv.index('-o') #file option index
+    fileOptionArgIdx = fileOptionIdx + 1 # file option argument index
+
+    # ensures that an file option argument is given and that it does not start with '-'
+    filename = sys.argv[fileOptionArgIdx] if len(sys.argv) > fileOptionArgIdx and sys.argv[fileOptionArgIdx][0] != '-' else False
+
+    if(not(filename)): #if the filename is not false
+        filename = 'symbolTable'
+
+    if(not(filename.endswith('.txt'))):
+        filename += '.txt'
+    
+    with open(filename, 'w', encoding = 'utf-8') as f:
+        f.write(format('TOKENS', '>15') + '       ' + 'LEXEMES' + '\n')
+        f.write('------------------------------------------\n')
+        f.write(to_symbol_table(tokens))
+
 if __name__ == "__main__":
     tokens = [] #variable for the token arrays
 
@@ -59,24 +77,11 @@ if __name__ == "__main__":
 
     else: # if no command line argument is provided
         while True:
-            text = input('sPyC > ')
+            text = input('sPyC >>> ')
             tokens = analyze_source('<stdin>', text)
+            if('-o' in sys.argv):
+                write_to_file(tokens)
             # else: print(*result, sep="\n")
 
     if('-o' in sys.argv):
-        fileOptionIdx = sys.argv.index('-o') #file option index
-        fileOptionArgIdx = fileOptionIdx + 1 # file option argument index
-
-        # ensures that an file option argument is given and that it does not start with '-'
-        filename = sys.argv[fileOptionArgIdx] if len(sys.argv) > fileOptionArgIdx and sys.argv[fileOptionArgIdx][0] != '-' else False
-
-        if(not(filename)): #if the filename is not false
-            filename = 'symbolTable'
-
-        if(not(filename.endswith('.txt'))):
-            filename += '.txt'
-        
-        with open(filename, 'w',encoding = 'utf-8') as f:
-            f.write(format('TOKENS', '>15') + '       ' + 'LEXEMES' + '\n')
-            f.write('------------------------------------------\n')
-            f.write(to_symbol_table(tokens))
+        write_to_file(tokens)

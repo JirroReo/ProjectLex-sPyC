@@ -46,7 +46,7 @@ class LexicalAnalyzerGUI(QWidget):
                 #     self.textEditor.setPlainText(data)
                 #     f.close()
             else:
-                pass
+                self.textEditor.setPlainText('Please enter a .spyc file') 
 
 
 if __name__ == '__main__':
