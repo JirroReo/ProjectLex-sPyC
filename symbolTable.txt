@@ -17,12 +17,12 @@
         KEYWORD      in
      IDENTIFIER      b
          LBRACE      {
-     IDENTIFIER      write
+        KEYWORD      write
          LPAREN      (
      IDENTIFIER      a
          RPAREN      )
       SEMICOLON      ;
-      DATA_TYPE      INTEGER
+        KEYWORD      int
      IDENTIFIER      c
          ASSIGN      =
      IDENTIFIER      d
@@ -83,7 +83,7 @@
          LBRACE      {
      IDENTIFIER      f
          ASSIGN      =
-     IDENTIFIER      read
+        KEYWORD      read
          LPAREN      (
         STR_LIT      'Input a string'
          RPAREN      )
