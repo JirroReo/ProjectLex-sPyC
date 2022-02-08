@@ -1,5 +1,6 @@
          TOKENS       LEXEMES
 ------------------------------------------
+      SEMICOLON      ;
         KEYWORD      class
      IDENTIFIER      Shape
          LBRACE      {
@@ -48,6 +49,10 @@
          ASSIGN      =
         INT_LIT      100
       SEMICOLON      ;
+     IDENTIFIER      boolVar
+         ASSIGN      =
+BOOLEAN_LITERAL      True
+      SEMICOLON      ;
         KEYWORD      if
          LPAREN      (
      IDENTIFIER      c
@@ -70,6 +75,9 @@
     POWERASSIGN      ^=
         INT_LIT      9
       SEMICOLON      ;
+     IDENTIFIER      intVar
+     PLUSASSIGN      +=
+       CONSTANT      MathPi
          RBRACE      }
         KEYWORD      def
      IDENTIFIER      Func
