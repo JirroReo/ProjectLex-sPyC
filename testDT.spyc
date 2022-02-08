@@ -6,7 +6,7 @@ class Shape {
 }
 
 #this is a comment 2#
-for a in b {
+for a within b {
     write(a);
     int c = d;
     string e = "hello" + 'world';

@@ -14,7 +14,7 @@
         COMMENT      #this is a comment 2#
         KEYWORD      for
      IDENTIFIER      a
-        KEYWORD      in
+        KEYWORD      within
      IDENTIFIER      b
          LBRACE      {
         KEYWORD      write
