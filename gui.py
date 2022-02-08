@@ -31,6 +31,7 @@ class LexicalAnalyzerGUI(QWidget):
     def getFile(self):
         dialog = QFileDialog()
         dialog.setFileMode(QFileDialog.AnyFile)
+        dialog.setNameFilter('*.spyc')
         dialog.setFilter(QDir.Files)
 
         if dialog.exec_():

@@ -204,7 +204,6 @@ class Lexer:
         if(lexeme == 'quit'): # if lexeme is quit then stop program.
             exit()
     
-        print('lexeme:', lexeme)
         # checks if the lexeme matches a keyword or reserved word, otherwise consider as identifier
         if(lexeme in keywords):
             return Token('KEYWORD', lexeme, pos_start, self.pos)
