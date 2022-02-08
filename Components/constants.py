@@ -72,6 +72,7 @@ types = {
 """dict: Contains data types"""
 
 reserved_words = [
+    'goto'
 ]
 
 """list: Contains the reserved words for the programming langauge"""
@@ -99,7 +100,6 @@ keywords = [
     'global',
     'whenever',
     'import',
-    'in',
     'int',
     'integer',
     'lambda',
@@ -111,7 +111,6 @@ keywords = [
     'return',
     'True',
     'try',
-    'with',
     'while',
     'within',
     'write',
