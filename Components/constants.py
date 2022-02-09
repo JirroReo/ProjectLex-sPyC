@@ -50,6 +50,7 @@ operators = {
     '&' : 'AND',
     '|' : 'OR',
     '!' : 'NOT',
+    '===': 'STRICTEQUAL',
 }
 """dict: special characters"""
 
@@ -90,7 +91,8 @@ boolean_literal = [
 """dict: Contains data types"""
 
 reserved_words = [
-    'goto'
+    'goto',
+    'quit'
 ]
 
 """list: Contains the reserved words for the programming langauge"""

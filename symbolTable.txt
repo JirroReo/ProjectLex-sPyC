@@ -39,7 +39,6 @@
          ASSIGN      =
      IDENTIFIER      a
       SEMICOLON      ;
-        INT_LIT      1
      IDENTIFIER      abc
          ASSIGN      =
         INT_LIT      31

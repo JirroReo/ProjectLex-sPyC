@@ -12,7 +12,7 @@ for a within b {
     string e = "hello" + 'world';
     intIdentifier= a;
 
-    1abc = 31;
+    abc = 31;
 }
 
 intVar = 100;
