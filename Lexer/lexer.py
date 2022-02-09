@@ -1,6 +1,6 @@
 from Components.tokens import Token
 from Components.constants import TYPE_EOF, digits, alphabet, keywords, reserved_words, special_characters, delimiters, types, operators, spaces, constants, boolean_literal
-from Components.errors import IllegalCharacterError, UnexpectedCharacterError
+from Components.errors import IllegalCharacterError, UnexpectedCharacterError, InvalidSyntaxError
 from Components.position import Position
 
 class Lexer:
@@ -80,7 +80,7 @@ class Lexer:
 
             elif self.current_character in digits: # if the current character is in the digits, create number
                 self.tokens.append(self.make_number())
-                
+
             elif self.current_character in alphabet: # if the current character is in the alphabet, check if identifier or keywords
                 output = self.make_lexeme()
                 if(isinstance(output, Token)):
@@ -144,8 +144,13 @@ class Lexer:
         while(self.current_character in operators):
             operator += self.current_character
             self.advance()
+            if operator not in operators:
+                illegal_pos = self.pos.copy()
+                illegal_pos.idx -= 1
+                return UnexpectedCharacterError(pos_start, illegal_pos, "'" + self.text[illegal_pos.idx] + "'")
         
         return Token(operators[operator], operator, pos_start, self.pos)
+            
 
     def make_number(self):
         """Create a number token
@@ -158,17 +163,22 @@ class Lexer:
         num_str = ''
         dot_count = 0
         pos_start = self.pos.copy()
+        is_illegal = False
 
-        while self.current_character is not None and self.current_character in digits + '.':
+        while self.current_character is not None and self.current_character in digits + alphabet + '.':
             if self.current_character == '.':
                 if dot_count > 0: break
                 dot_count += 1
                 num_str += '.'
+            elif self.current_character in alphabet:
+                is_illegal = True
             else:
                 num_str += self.current_character
             self.advance()
 
-        if dot_count == 0:
+        if is_illegal: 
+                return InvalidSyntaxError(pos_start, self.pos, "Identifiers can't start with a digit.")
+        elif dot_count == 0:
             return Token('INT_LIT', int(num_str), pos_start, self.pos)
         else:
             return Token('FLOAT_LIT', float(num_str), pos_start, self.pos)
