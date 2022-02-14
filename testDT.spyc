@@ -5,6 +5,8 @@
     def Area();#this is comment 1#
 }
 
+intVarAbcDEF = 11;
+
 #this is a comment 2#
 for a within b {
     write(a);
