@@ -194,13 +194,14 @@ class Lexer:
         lexeme = ''
         pos_start = self.pos.copy()
         # assuming (for now) that identifiers can only contain alphabet and digits
+        isDoneCheckingIdentifierFormat = False
         if(self.current_character.isupper()):
             while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
                 lexeme += self.current_character
                 self.advance()
         else:
             while self.current_character is not None and (self.current_character in alphabet or self.current_character in digits):
-                if(len(self.tokens) > 0):
+                if(not(isDoneCheckingIdentifierFormat) and (len(self.tokens) > 0)):
                     index = -1
                     while((index + len(self.tokens) != 0) and self.tokens[index].value in delimiters):
                         index -= 1
@@ -208,6 +209,7 @@ class Lexer:
                         if(self.current_character.isupper()):
                             if(not(lexeme in types)):
                                 return UnexpectedCharacterError(pos_start, self.pos, "'" + self.current_character +"'")
+                            isDoneCheckingIdentifierFormat = True
                 lexeme += self.current_character
                 self.advance()
             

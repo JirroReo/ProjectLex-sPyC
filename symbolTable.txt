@@ -12,6 +12,10 @@
       SEMICOLON      ;
         COMMENT      #this is comment 1#
          RBRACE      }
+     IDENTIFIER      intVarAbcDEF
+         ASSIGN      =
+        INT_LIT      11
+      SEMICOLON      ;
         COMMENT      #this is a comment 2#
         KEYWORD      for
      IDENTIFIER      a
