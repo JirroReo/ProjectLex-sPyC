@@ -59,17 +59,22 @@ class Lexer:
                     output = self.scan_comment()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
+                    else:
+                        return [], output
 
                 elif(self.current_character == '\'' or self.current_character == '"'): # check whether the current character is a string indicator
                     output = self.scan_string_literal()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
+                    else:
+                        return [], output
             
                 else: # create a token for the special character
                     output = self.scan_special_character()
                     if(isinstance(output, Token)):
                         self.tokens.append(output)
-                    
+                    else:
+                        return [], output
 
             elif self.current_character in operators:
                 output = self.scan_operator()
@@ -79,7 +84,11 @@ class Lexer:
                     return [], output
 
             elif self.current_character in digits: # if the current character is in the digits, create number
-                self.tokens.append(self.make_number())
+                output = self.make_number()
+                if(isinstance(output, Token)):
+                    self.tokens.append(output)
+                else:
+                    return [], output
 
             elif self.current_character in alphabet: # if the current character is in the alphabet, check if identifier or keywords
                 output = self.make_lexeme()
@@ -107,9 +116,12 @@ class Lexer:
         pos_start = self.pos.copy()
         lexeme = self.current_character
         self.advance()
-        while(self.current_character != '#'):# get all the characters until # is not encountered
-            lexeme += self.current_character
-            self.advance()
+        while(self.current_character != '#'): # get all the characters until # is not encountered
+            if(self.current_character == '\n' or self.current_character is None): # check if comment is unterminated
+                return InvalidSyntaxError(pos_start, self.pos, 'Comments must be terminated with another \'#\'.')
+            else: 
+                lexeme += self.current_character
+                self.advance()
 
         lexeme += self.current_character
         self.advance()
