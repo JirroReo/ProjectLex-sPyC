@@ -55,7 +55,8 @@ def print_tokens(tokens):
 
 def to_symbol_table(tokens):
     string = ''
-    for token in tokens:
-        string += str(token) + '\n'
+    if(tokens != None):
+        for token in tokens:
+            string += str(token) + '\n'
 
     return string
