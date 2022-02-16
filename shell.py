@@ -10,9 +10,8 @@ import os
 def analyze_source(fn, text):
     result, error = run(fn, text)
     if error: print(error.__str__())
-    else: print_tokens(result)
-
-    return result
+    # else: print_tokens(result)
+    else: return result
 
 def run(fn, text):
     # Analyze lexigraph
@@ -92,9 +91,10 @@ if __name__ == "__main__":
             text = input('sPyC >>> ')
             if text == "quit()": break
             tokens = analyze_source('<stdin>', text)
-            if('-o' in sys.argv):
-                write_to_file(tokens)
-            # else: print(*result, sep="\n")
+            if tokens:
+                print(tokens)
+                if('-o' in sys.argv):
+                    write_to_file(tokens)
 
     if('-o' in sys.argv):
         write_to_file(tokens)

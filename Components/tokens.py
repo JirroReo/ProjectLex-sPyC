@@ -49,7 +49,7 @@ def print_tokens(tokens):
 
     """
     for token in tokens:
-        print(token)
+        print(token.value)
     pass
 
 

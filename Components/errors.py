@@ -18,9 +18,9 @@ class Error:
     
     def __str__(self):
         """The function that is invoked when passed in the :obj:`print` function"""
-        result = '\n' + f'{self.error_name}: {self.details}'
+        result = '\n' + strWithArrows(self.pos_start.ftxt, self.pos_start, self.pos_end) 
+        result += '\n\n' + f'{self.error_name}: {self.details}'
         result += f'\nFile {self.pos_start.fn}, line {self.pos_start.ln + 1}\n'
-        result += '\n\n' + strWithArrows(self.pos_start.ftxt, self.pos_start, self.pos_end) 
         return result
 
 class IllegalCharacterError(Error):
@@ -40,6 +40,7 @@ class RTError(Error):
         self.context = context
 
     def __str__(self):
+        print('STRSTRSTR')
         """The function that is invoked when passed in the :obj:`print` function"""
         result = self.generate_traceback()
         result += '\n' + f'{self.error_name}: {self.details}'

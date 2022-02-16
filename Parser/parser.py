@@ -36,7 +36,7 @@ class Parser:
     
     def parse(self):
         res = self.expression()
-        if not res.error and self.current_tok.type is not TYPE_EOF:
+        if res.error and self.current_tok.type is not TYPE_EOF:
             return res.failure(InvalidSyntaxError(
                 self.current_tok.pos_start, self.current_tok.pos_end,
                 "Expected '+', '-', '*', '/', or '%'"
