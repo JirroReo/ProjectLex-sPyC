@@ -17,7 +17,7 @@ class Token:
     def __init__(self, type_, value=None, pos_start=None, pos_end=None):
         self.type = type_   
         self.value = value
-
+        
         if pos_start:
             self.pos_start = pos_start.copy()
             self.pos_end = pos_start.copy()
@@ -34,3 +34,29 @@ class Token:
         """
         if self.value: return f'{self.type}: {self.value}'
         return f'{self.type}'
+
+    def __str__(self):
+        if self.value: return format(self.type,'>15') + '      ' + str(self.value)
+        return f'{self.type}'
+
+
+def print_tokens(tokens):
+    """ Prints an array of :obj:`Token` in a table like format (type, value)
+
+    Arguments:
+        tokens(:obj:`list`): an array of :obj:`Token` 
+
+
+    """
+    for token in tokens:
+        print(token)
+    pass
+
+
+def to_symbol_table(tokens):
+    string = ''
+    if(tokens != None):
+        for token in tokens:
+            string += str(token) + '\n'
+
+    return string

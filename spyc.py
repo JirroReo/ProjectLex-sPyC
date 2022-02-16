@@ -1,8 +1,6 @@
 from Lexer.lexer import Lexer
 from Components.tokens import print_tokens, to_symbol_table
 from Parser.parser import Parser
-from Interpreter.interpreter import Interpreter
-from Components.errors import Context
 import sys
 import os
 
@@ -20,21 +18,11 @@ def run(fn, text):
     tokens, error = lexer.make_tokens()
     if error: return None, error
 
-    # return tokens, error
-    # ^ [Lexer] Uncomment line 23 for Lexer
+    return tokens, error
+    # ^ [Lexer]
 
     # v [Parser]
     # Generate Abstract Syntax Tree 
-    parser = Parser(tokens)
-    ast = parser.parse()
-    if ast.error: return None, ast.error
-
-    # Interpreter block, must have Parser enabled
-    interpreter = Interpreter()
-    context = Context('<program>') #root parent of tracebacks in errors, placeholder <program>
-    result = interpreter.visit(ast.node, context)
-
-    return result.value, result.error
     # parser = Parser(tokens)
     # ast = parser.parse()
     # return ast.node, ast.error
@@ -90,7 +78,6 @@ if __name__ == "__main__":
     else: # if no command line argument is provided
         while True:
             text = input('sPyC >>> ')
-            if text == "quit()": break
             tokens = analyze_source('<stdin>', text)
             if('-o' in sys.argv):
                 write_to_file(tokens)

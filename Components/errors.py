@@ -80,3 +80,7 @@ class Context:
         self.display_name = display_name
         self.parent = parent
         self.parent_entry_pos = parent_entry_pos
+class UnexpectedCharacterError(Error):
+    """Error object for illegal character"""
+    def __init__(self, pos_start, pos_end, details):
+        super().__init__(pos_start, pos_end, 'Unexpected Character', details)

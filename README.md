@@ -1,4 +1,4 @@
-## Project Lex: sPyC
+## sPyC
 ===========
 
 ###  Architecture
@@ -32,9 +32,19 @@ $ cd ProjectLex
 
 #### Running the project
 
-On the base project directory:
+On the base project directory run any:
 ```
-python3 shell.py
+python3 spyc.py
+```
+
+```
+python spyc.py
+```
+```
+python spyc.py -f <file.spyc> -o <outputfilename>
+```
+```
+./spyc
 ```
 
 ### Assignments

@@ -47,7 +47,13 @@ class Parser:
         res = ParseResult()
         tok = self.current_tok
 
-        if tok.type in ('INT', 'FLOAT'):
+        if tok.type in ('PLUS', 'MINUS'):
+            res.register(self.advance())
+            factor = res.register(self.factor())
+            if res.error: return res
+            return res.success(UnaryOpNode(tok, factor))
+
+        elif tok.type in ('INT_LIT', 'FLOAT_LIT'):
             res.register(self.advance())
             return res.success(NumberNode(tok))
         
