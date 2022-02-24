@@ -7,10 +7,20 @@ import os
 
 def analyze_source(fn, text):
     result, error = run(fn, text)
-    if error: print(error.__str__())
-    else: print_tokens(result)
 
-    return result
+    # if error: print(error.__str__())
+    # else: print_tokens(result)
+
+    # return result
+
+    if error: 
+        print('ERROR FOUND!')
+    else: 
+        print('OK!')
+        if('-t' in sys.argv or '--table' in sys.argv):
+            print_tokens(result)
+    
+    return result, error
 
 def run(fn, text):
     # Analyze lexigraph
@@ -34,7 +44,7 @@ def write_to_file(tokens):
     # ensures that an file option argument is given and that it does not start with '-'
     filename = sys.argv[fileOptionArgIdx] if len(sys.argv) > fileOptionArgIdx and sys.argv[fileOptionArgIdx][0] != '-' else False
 
-    if(not(filename)): #if the filename is not false
+    if(not(filename)): # if the filename is not false
         filename = 'symbolTable'
 
     if(not(filename.endswith('.txt'))):
@@ -58,16 +68,16 @@ if __name__ == "__main__":
 
         if(filepath): #if the filename is not false
             if(filename.lower().endswith('.spyc')):
-                print('filename: ', filename) #output the file name
-                print('\n')
-                print(format('TOKENS', '>15'), '    ', 'LEXEMES')
-                print('------------------------------------------')
-
+                if('-t' in sys.argv or '--table' in sys.argv):
+                    print('filename: ', filename) #output the file name
+                    print('\n')
+                    print(format('TOKENS', '>15'), '    ', 'LEXEMES')
+                    print('------------------------------------------')
 
                 try: # 
                     with open(filepath, 'r') as f: #Open the file
                         text = f.read() # get the whole text in the file
-                        tokens = analyze_source(filepath, text) # run the lexical and syntax analyzer 
+                        tokens, error = analyze_source(filepath, text) # run the lexical and syntax analyzer 
 
                 except FileNotFoundError: #catch the error when FileNotFoundError occurs
                     print('File not found!')
@@ -78,9 +88,10 @@ if __name__ == "__main__":
     else: # if no command line argument is provided
         while True:
             text = input('sPyC >>> ')
-            tokens = analyze_source('<stdin>', text)
+            tokens, error = analyze_source('<stdin>', text)
             if('-o' in sys.argv):
-                write_to_file(tokens)
+                if error is None:
+                    write_to_file(tokens)
             # else: print(*result, sep="\n")
 
     if('-o' in sys.argv):

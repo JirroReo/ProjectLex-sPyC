@@ -1,0 +1,6 @@
+class Error {
+    int abc = 1;
+    print("This should return an error");
+    # unterminated comment here
+    int def = abc + 3;
+}

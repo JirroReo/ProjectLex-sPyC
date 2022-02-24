@@ -1,16 +1,15 @@
          TOKENS       LEXEMES
 ------------------------------------------
-      SEMICOLON      ;
         KEYWORD      class
      IDENTIFIER      Shape
          LBRACE      {
-        COMMENT      #this is a comment#
+        COMMENT      # this is a comment #
         KEYWORD      def
      IDENTIFIER      Area
          LPAREN      (
          RPAREN      )
       SEMICOLON      ;
-        COMMENT      #this is comment 1#
+        COMMENT      # this is comment 1 #
          RBRACE      }
      IDENTIFIER      intVarAbcDEF
          ASSIGN      =

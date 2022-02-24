@@ -1,8 +1,9 @@
-; class Shape {
-    #this is a comment#
+class Shape {
+    # this is a comment #
 
 
-    def Area();#this is comment 1#
+    def Area();
+    # this is comment 1 #
 }
 
 intVarAbcDEF = 11;

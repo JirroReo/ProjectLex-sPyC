@@ -1,0 +1,7 @@
+class Error {
+    int abc = 1;
+    int bcd = 2;
+    # intVarAbc should throw an error #
+    intVarAbc = 3;
+    write('Did the test work?');
+}

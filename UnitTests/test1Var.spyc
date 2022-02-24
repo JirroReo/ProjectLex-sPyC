@@ -1,0 +1,6 @@
+class Error {
+    int abc = 1;
+    int bcd = 2;
+    # 1car should throw an error #
+    int 1car = 3;
+}
