@@ -1,6 +1,6 @@
 from Components.tokens import Token
 from Components.constants import TYPE_EOF, digits, types, alphabet, keywords, reserved_words
-from Components.errors import IllegalCharacterError
+from Components.errors import IllegalCharacterError, InvalidSyntaxError
 from Components.position import Position
 
 class Lexer:
@@ -53,6 +53,9 @@ class Lexer:
                 tokens.append(self.make_number())
             elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
                 tokens.append(self.make_lexeme())
+            elif self.current_character == '=':
+                tokens.append(Token('EQUALS', pos_start=self.pos))
+                self.advance()
             else:# If the character didn't pass all the other conditions, return an error
                 pos_start = self.pos.copy()
                 char = self.current_character
@@ -68,25 +71,29 @@ class Lexer:
         Returns:
             :class:`~Lex.tokens.Token`: A :class:`~Lex.tokens.Token` which is either has a :attr:`~Lex.tokens.Token.type` attribute 
             containing either :obj:`int` or :obj:`float` (only these two are supported as of now) 
-
         """
         num_str = ''
         dot_count = 0
         pos_start = self.pos.copy()
+        is_illegal = False
 
-        while self.current_character is not None and self.current_character in digits + '.':
+        while self.current_character is not None and self.current_character in digits + alphabet + '.':
             if self.current_character == '.':
                 if dot_count > 0: break
                 dot_count += 1
                 num_str += '.'
+            elif self.current_character in alphabet:
+                is_illegal = True
             else:
                 num_str += self.current_character
             self.advance()
 
-        if dot_count == 0:
-            return Token('INT', int(num_str), pos_start, self.pos)
+        if is_illegal: 
+                return InvalidSyntaxError(pos_start, self.pos, "Identifiers can't start with a digit.")
+        elif dot_count == 0:
+            return Token('INT_LIT', int(num_str), pos_start, self.pos)
         else:
-            return Token('FLOAT', float(num_str), pos_start, self.pos)
+            return Token('FLOAT_LIT', float(num_str), pos_start, self.pos)
 
     def make_lexeme(self):
         """Captures :obj:`identifier`, :obj:`~Lex.constants.keywords`, and :obj:`~Lex.constants.reserved_words` lexemes 

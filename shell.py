@@ -1,8 +1,13 @@
 from Lexer.lexer import Lexer
 from Parser.parser import Parser
 from Interpreter.interpreter import Interpreter
-from Components.errors import Context
+from Components.context import Context
+from Components.symboltable import SymbolTable
+from Components.number import Number
 import sys
+
+global_symbol_table = SymbolTable()
+global_symbol_table.set("null", Number(0))
 
 def analyze_source(fn, text):
     result, error = run(fn, text)
@@ -27,6 +32,7 @@ def run(fn, text):
     # Interpreter block, must have Parser enabled
     interpreter = Interpreter()
     context = Context('<program>') #root parent of tracebacks in errors, placeholder <program>
+    context.symbol_table = global_symbol_table
     result = interpreter.visit(ast.node, context)
 
     return result.value, result.error
@@ -53,7 +59,7 @@ if __name__ == "__main__":
 
     else: # if no command line argument is provided
         while True:
-            text = input('sPyC > ')
-            if text == "quit()": break
+            text = input('sPyC >>> ')
+            if text == "\q": break
             analyze_source('<stdin>', text)
             # else: print(*result, sep="\n")

@@ -1,5 +1,6 @@
 TYPE_EOF = 'End of file'
 """str: The end of file constant"""
+EQUALS = '='
 
 digits = '0123456789'
 """int: Contains the digits that are supported by the lexer"""
@@ -24,5 +25,5 @@ alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 reserved_words = {}
 """dict: Contains the reserved words for the programming langauge"""
 
-keywords = ["keyword", "token"]
+keywords = ["keyword", "token", "var"]
 """list: Contains the keywords for the programming language"""
