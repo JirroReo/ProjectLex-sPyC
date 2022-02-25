@@ -1,6 +1,6 @@
 from Components.tokens import Token
 from Components.constants import TYPE_EOF, digits, types, alphabet, keywords, reserved_words
-from Components.errors import IllegalCharacterError, InvalidSyntaxError
+from Components.errors import IllegalCharacterError, InvalidSyntaxError, ExpectedCharError
 from Components.position import Position
 
 class Lexer:
@@ -53,9 +53,16 @@ class Lexer:
                 tokens.append(self.make_number())
             elif self.current_character in alphabet:# if the current character is in the alphabet, check if identifier or keywords
                 tokens.append(self.make_lexeme())
+            elif self.current_character == '!':
+                tok, error = self.make_not_equals()
+                if error: return [], error
+                tokens.append(tok)
             elif self.current_character == '=':
-                tokens.append(Token('EQUALS', pos_start=self.pos))
-                self.advance()
+                tokens.append(self.make_equals())
+            elif self.current_character == '<':
+                tokens.append(self.make_less_than())
+            elif self.current_character == '>':
+                tokens.append(self.make_greater_than())
             else:# If the character didn't pass all the other conditions, return an error
                 pos_start = self.pos.copy()
                 char = self.current_character
@@ -64,6 +71,50 @@ class Lexer:
 
         tokens.append(Token(TYPE_EOF, pos_start=self.pos)) #Append the EOF token
         return tokens, None
+    
+    def make_not_equals(self):
+        pos_start = self.pos.copy()
+        self.advance()
+
+        if self.current_character == '=':
+            self.advance()
+            return Token('NEQ', pos_start=pos_start, pos_end=self.pos), None\
+        
+        self.advance()
+        return None, ExpectedCharError(pos_start, self.pos, "'=' (after '!')")
+    
+    def make_equals(self):
+        tok_type = 'ASSIGN'
+        pos_start = self.pos.copy()
+        self.advance()
+
+        if self.current_character == '=':
+            self.advance()
+            tok_type = 'EQ'
+        
+        return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
+
+    def make_less_than(self):
+        tok_type = 'LT'
+        pos_start = self.pos.copy()
+        self.advance()
+
+        if self.current_character == '=':
+            self.advance()
+            tok_type = 'LTE'
+        
+        return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
+    
+    def make_greater_than(self):
+        tok_type = 'GT'
+        pos_start = self.pos.copy()
+        self.advance()
+
+        if self.current_character == '=':
+            self.advance()
+            tok_type = 'GTE'
+        
+        return Token(tok_type, pos_start=pos_start, pos_end=self.pos)
     
     def make_number(self):
         """Create a number token

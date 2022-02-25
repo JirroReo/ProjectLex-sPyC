@@ -58,6 +58,10 @@ class RTError(Error):
 
         return 'Traceback (most recent call last):\n' + result
 
+class ExpectedCharError(Error):
+    """Error object for expected character"""
+    def __init__(self, pos_start, pos_end, details):
+        super().__init__(pos_start, pos_end, 'Expected Character: ', details)
 class RTResult:
     def __init__(self):
         self.value = None

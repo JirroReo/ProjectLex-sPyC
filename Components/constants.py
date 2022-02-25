@@ -1,6 +1,12 @@
 TYPE_EOF = 'End of file'
 """str: The end of file constant"""
-EQUALS = '='
+ASSIGN = '='
+EQ = '=='
+NEQ = '!='
+GT = '>'
+LT = '<'
+GTE = '>='
+LTE = '<='
 
 digits = '0123456789'
 """int: Contains the digits that are supported by the lexer"""
@@ -15,7 +21,7 @@ types = {
     '%' : 'MODULO',
     '^' : 'RAISED TO',
     '(' : 'LPAREN',
-    ')' : 'RPAREN'
+    ')' : 'RPAREN',
 }
 """dict: Contains data types, operators and other special characters"""
 
@@ -25,5 +31,5 @@ alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 reserved_words = {}
 """dict: Contains the reserved words for the programming langauge"""
 
-keywords = ["keyword", "token", "var"]
+keywords = ["keyword", "token", "var", "and", "or", "not"]
 """list: Contains the keywords for the programming language"""

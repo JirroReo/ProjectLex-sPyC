@@ -100,6 +100,31 @@ class Parser:
     def term(self):
         return self.bin_op(self.factor, ('MODULO', 'MULTIPLY', 'DIVIDE'))
 
+    def arith_expression(self):
+        return self.bin_op(self.term, ('PLUS', 'MINUS'))
+
+    def comp_expression(self):
+        res = ParseResult()
+
+        if self.current_tok.matches('KEYWORD', 'not'):
+            op_tok = self.current_tok
+            res.register_advancement()
+            self.advance()
+
+            node = res.register(self.comp_expression())
+            if res.error: return res
+            return res.success(UnaryOpNode(op_tok))
+        
+        node = res.register(self.bin_op(self.arith_expression, ('EQ', 'NEQ', 'LT', 'GT', 'LTE', 'GTE')))
+        if res.error:
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                "Expected int, float, identifier, '+', '-', '(' or 'not'"
+            ))
+        
+        return res.success(node)
+
+
     def expression(self):
         res = ParseResult()
 
@@ -116,7 +141,7 @@ class Parser:
             res.register_advancement()
             self.advance()
 
-            if self.current_tok.type != 'EQUALS':
+            if self.current_tok.type != 'ASSIGN':
                 return res.failure(InvalidSyntaxError(
                     self.current_tok.pos_start, self.current_tok.pos_end,
                     'Expected \'=\''
@@ -129,12 +154,13 @@ class Parser:
                 return res
             return res.success(VarAssignNode(var_name, expr))
 
-        node = res.register(self.bin_op(self.term, ('PLUS', 'MINUS')))
+        node = res.register(self.bin_op(self.comp_expression, (('KEYWORD', 'and'), ('KEYWORD', 'or'))))
 
         if res.error: return res.failure(InvalidSyntaxError(
             self.current_tok.pos_start, self.current_tok.pos_end,
             "Expected int, float, identifier, 'var', '+', '-', or '('"
         ))
+        
         return res.success(node)
 
     def bin_op(self, func_a, ops, func_b=None):
@@ -145,7 +171,7 @@ class Parser:
         left = res.register(func_a())
         if res.error: return res
 
-        while self.current_tok.type in ops:
+        while self.current_tok.type in ops or (self.current_tok.type, self.current_tok.value) in ops:
             op_tok = self.current_tok
             res.register_advancement()
             self.advance()
