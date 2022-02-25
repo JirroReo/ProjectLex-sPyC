@@ -15,7 +15,7 @@ def analyze_source(fn, text):
     result, error = run(fn, text)
 
     if error: print(error.__str__())
-    else: print(result)
+    elif result: print(result)
 
 def run(fn, text):
     # Analyze lexigraph

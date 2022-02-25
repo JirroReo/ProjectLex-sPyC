@@ -1,4 +1,4 @@
-from Components.nodes import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode
+from Components.nodes import NumberNode, BinOpNode, UnaryOpNode, VarAccessNode, VarAssignNode, IfNode
 from Components.errors import InvalidSyntaxError
 from Components.constants import TYPE_EOF
 
@@ -74,6 +74,11 @@ class Parser:
                     self.current_tok.pos_start, self.current_tok.pos_end,
                     "Expected ')'"
                 ))
+        
+        elif tok.matches('KEYWORD', 'if'):
+            if_expr = res.register(self.if_expression())
+            if res.error: return res
+            return res.success(if_expr)
 
         return res.failure(InvalidSyntaxError(
             tok.pos_start, tok.pos_end,
@@ -99,6 +104,65 @@ class Parser:
 
     def term(self):
         return self.bin_op(self.factor, ('MODULO', 'MULTIPLY', 'DIVIDE'))
+
+    def if_expression(self):
+        res = ParseResult()
+        cases = []
+        else_case = None
+
+        if not self.current_tok.matches('KEYWORD', 'if'):
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                f"Expected 'if'"
+            ))
+
+        res.register_advancement()
+        self.advance()
+
+        condition = res.register(self.expression())
+        if res.error: return res
+        
+        if not self.current_tok.matches('KEYWORD', 'then'):
+            return res.failure(InvalidSyntaxError(
+                self.current_tok.pos_start, self.current_tok.pos_end,
+                f"Expected 'then'"
+            ))
+        
+        res.register_advancement()
+        self.advance()
+
+        expr = res.register(self.expression())
+        if res.error: return res
+        cases.append((condition, expr))
+
+        while self.current_tok.matches('KEYWORD', 'elif'):
+            res.register_advancement()
+            self.advance()
+
+            condition = res.register(self.expression())
+            if res.error: return res
+
+            if not self.current_tok.matches('KEYWORD', 'then'):
+                return res.failure(InvalidSyntaxError(
+                    self.current_tok.pos_start, self.current_tok.pos_end,
+                    f"Expected 'then'"
+                ))
+
+            res.register_advancement()
+            self.advance()
+
+            expr = res.register(self.expression())
+            if res.error: return res
+            cases.append((condition, expr))
+
+        if self.current_tok.matches('KEYWORD', 'else'):
+            res.register_advancement()
+            self.advance()
+
+            else_case = res.register(self.expression())
+            if res.error: return res
+        
+        return res.success(IfNode(cases, else_case))
 
     def arith_expression(self):
         return self.bin_op(self.term, ('PLUS', 'MINUS'))
