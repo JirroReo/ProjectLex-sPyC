@@ -31,5 +31,20 @@ alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 reserved_words = {}
 """dict: Contains the reserved words for the programming langauge"""
 
-keywords = ["keyword", "token", "var", "and", "or", "not", "if", "then", "elif", "else"]
+keywords = [
+    "keyword", 
+    "token", 
+    "var", 
+    "and", 
+    "or", 
+    "not", 
+    "if", 
+    "then", 
+    "elif", 
+    "else",
+    "for", 
+    "to", 
+    "step", 
+    "while", 
+    ]
 """list: Contains the keywords for the programming language"""
