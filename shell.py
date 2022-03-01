@@ -62,6 +62,6 @@ if __name__ == "__main__":
     else: # if no command line argument is provided
         while True:
             text = input('sPyC >>> ')
-            if text == "\q": break
+            if text == "\q" or text == "quit": break
             analyze_source('<stdin>', text)
             # else: print(*result, sep="\n")

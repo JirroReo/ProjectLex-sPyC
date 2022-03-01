@@ -258,7 +258,7 @@ class Parser:
         condition = res.register(self.expression())
         if res.error: return res
 
-        if not self.current_tok.matches('KEYWORD', 'THEN'):
+        if not self.current_tok.matches('KEYWORD', 'then'):
             return res.failure(InvalidSyntaxError(
 				self.current_tok.pos_start, self.current_tok.pos_end,
 				f"Expected 'then'"
